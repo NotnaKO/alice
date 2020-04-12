@@ -11,7 +11,8 @@ cities = {
     'москва': ['1540737/daa6e420d33102bf6947', '213044/7df73ae4cc715175059e'],
     'нью-йорк': ['1652229/728d5c86707054d4745f', '1030494/aca7ed7acefde2606bdc'],
     'париж': ["1652229/f77136c2364eb90a3ea8", '123494/aca7ed7acefd12e606bdc'],
-    'тула': ["1030494/6065a546b333a9d8b15b", '1540737/bff2ff777d7f996478c1']
+    'тула': ["1030494/6065a546b333a9d8b15b", '1540737/bff2ff777d7f996478c1'],
+    'нижний новгород': ['1652229/98de848e50da51e7e8ea', '997614/91779f90821f39b5f842']
 }
 
 sessionStorage = {}
@@ -43,6 +44,11 @@ def handle_dialog(res, req):
             'game_started': False  # здесь информация о том, что пользователь начал игру. По умолчанию False
         }
         return
+    if 'guessed_cities' in sessionStorage[user_id]:
+        if len(sessionStorage[user_id]['guessed_cities']) == len(cities):
+            res['response']['text'] = 'Ты отгадал все города!'
+            res['end_session'] = True
+            return
     if 'payload' in req['request']:
         if 'help' in req['request']['payload']:
             res['response']['text'] = ''
@@ -174,6 +180,15 @@ def play_game(res, req):
             res['response']['text'] = 'Правильно! Сыграем ещё?'
             sessionStorage[user_id]['guessed_cities'].append(city)
             sessionStorage[user_id]['game_started'] = False
+            res['response']['buttons'] += [
+                {
+                    'title': 'Да',
+                    'hide': True
+                },
+                {
+                    'title': 'Нет',
+                    'hide': True
+                }]
             return
         else:
             # если нет
@@ -184,6 +199,15 @@ def play_game(res, req):
                 # Обратите внимание на этот шаг на схеме.
                 res['response']['text'] = f'Вы пытались. Это {city.title()}. Сыграем ещё?'
                 sessionStorage[user_id]['game_started'] = False
+                res['response']['buttons'] += [
+                    {
+                        'title': 'Да',
+                        'hide': True
+                    },
+                    {
+                        'title': 'Нет',
+                        'hide': True
+                    }]
                 sessionStorage[user_id]['guessed_cities'].append(city)
                 return
             else:
