@@ -54,14 +54,21 @@ def handle_dialog(res, req):
     if 'payload' in req['request']:
         if 'help' in req['request']['payload']:
             res['response']['text'] = ''
+            if user_id not in sessionStorage:
+                res['response']['text'] += 'Пожалуйста, напиши своё имя'
+                return
+            if 'first_name' not in sessionStorage[user_id]:
+                res['response']['text'] += 'Пожалуйста, напиши своё имя'
+                return
             if not sessionStorage[user_id]['first_name']:
                 res['response']['text'] += 'Пожалуйста, напиши своё имя'
                 return
-            elif "guessed_cities" in sessionStorage[user_id]:
+            if "guessed_cities" in sessionStorage[user_id]:
                 if len(sessionStorage[user_id]['guessed_cities']) != 0:
                     res['response'][
                         'text'] = f'Ты уже отгадывал {len(sessionStorage[user_id]["guessed_cities"])} из {len(cities.keys())}\n'
-            elif not sessionStorage[user_id]['game_started']:
+                    return
+            if not sessionStorage[user_id]['game_started']:
                 res['response']['text'] += 'Будешь играть дальше?'
                 res['response']['buttons'] += [
                     {
