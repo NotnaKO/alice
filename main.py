@@ -43,18 +43,27 @@ def handle_dialog(res, req):
             'game_started': False  # здесь информация о том, что пользователь начал игру. По умолчанию False
         }
         return
-    if 'payload' in req['response']:
-        if 'help' in req['response']['payload']:
+    if 'payload' in req['request']:
+        if 'help' in req['request']['payload']:
             res['response']['text'] = ''
             if "guessed_cities" in sessionStorage[user_id]:
-                if len(res['response']['guessed_cities']) != 0:
+                if len(sessionStorage[user_id]['guessed_cities']) != 0:
                     res['response'][
                         'text'] = f'Ты уже отгадывал {len(sessionStorage[user_id]["guessed_cities"])} из {len(cities.keys())}\n'
             if sessionStorage[user_id]['first_name'] is None:
                 res['response']['text'] += 'Пожалуйста, напиши своё имя'
                 return
             elif not sessionStorage[user_id]['game_started']:
-                res['response']['text'] += 'Будешь играть?'
+                res['response']['text'] += 'Будешь играть дальше?'
+                res['response']['buttons'] += [
+                    {
+                        'title': 'Да',
+                        'hide': True
+                    },
+                    {
+                        'title': 'Нет',
+                        'hide': True
+                    }]
                 return
             else:
                 if len(res['response']['guessed_cities']) == len(cities.keys()):
