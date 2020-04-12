@@ -44,11 +44,12 @@ def handle_dialog(res, req):
             'game_started': False  # здесь информация о том, что пользователь начал игру. По умолчанию False
         }
         return
-    if 'guessed_cities' in sessionStorage[user_id]:
-        if len(sessionStorage[user_id]['guessed_cities']) == len(cities):
-            res['response']['text'] = 'Ты отгадал все города!'
-            res['end_session'] = True
-            return
+    if user_id in sessionStorage:
+        if 'guessed_cities' in sessionStorage[user_id]:
+            if len(sessionStorage[user_id]['guessed_cities']) == len(cities):
+                res['response']['text'] = 'Ты отгадал все города!'
+                res['end_session'] = True
+                return
     if 'payload' in req['request']:
         if 'help' in req['request']['payload']:
             res['response']['text'] = ''
