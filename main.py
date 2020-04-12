@@ -6,7 +6,6 @@ import random
 app = Flask(__name__)
 
 logging.basicConfig(level=logging.INFO)
-
 cities = {
     'москва': ['1540737/daa6e420d33102bf6947', '213044/7df73ae4cc715175059e'],
     'нью-йорк': ['1652229/728d5c86707054d4745f', '1030494/aca7ed7acefde2606bdc'],
@@ -14,7 +13,6 @@ cities = {
     'тула': ["1030494/6065a546b333a9d8b15b", '1540737/bff2ff777d7f996478c1'],
     'нижний новгород': ['1652229/98de848e50da51e7e8ea', '997614/91779f90821f39b5f842']
 }
-STORAGE = {}
 
 
 @app.route('/post', methods=['POST'])
@@ -255,4 +253,5 @@ def get_first_name(req):
 
 
 if __name__ == '__main__':
+    STORAGE = {}
     app.run()
