@@ -50,7 +50,7 @@ def handle_dialog(res, req):
                 if len(sessionStorage[user_id]['guessed_cities']) != 0:
                     res['response'][
                         'text'] = f'Ты уже отгадывал {len(sessionStorage[user_id]["guessed_cities"])} из {len(cities.keys())}\n'
-            if sessionStorage[user_id]['first_name'] is None:
+            if not sessionStorage[user_id]['first_name']:
                 res['response']['text'] += 'Пожалуйста, напиши своё имя'
                 return
             elif not sessionStorage[user_id]['game_started']:
