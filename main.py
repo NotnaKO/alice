@@ -30,7 +30,8 @@ def main():
         }
     }
     handle_dialog(response, request.json)
-    response['response']['buttons'] += [{'title': 'Помощь', 'hide': False, 'payload': {'help': True}}]
+    if response['response']['text'] != 'Ну и ладно!':
+        response['response']['buttons'] += [{'title': 'Помощь', 'hide': False, 'payload': {'help': True}}]
     logging.info('Response: %r', response)
     return json.dumps(response)
 
@@ -93,6 +94,7 @@ def handle_dialog(res, req):
                         else:
                             res['response'][
                                 'text'] += 'Города закончились'
+        return
 
     if sessionStorage[user_id]['first_name'] is None:
         first_name = get_first_name(req)
