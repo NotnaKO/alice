@@ -24,6 +24,7 @@ def main():
         'session': request.json['session'],
         'version': request.json['version'],
         'response': {
+            'buttons': [],
             'end_session': False
         }
     }
