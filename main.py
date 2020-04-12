@@ -6,6 +6,7 @@ import random
 app = Flask(__name__)
 
 logging.basicConfig(level=logging.INFO)
+STORAGE = {}
 cities = {
     'москва': ['1540737/daa6e420d33102bf6947', '213044/7df73ae4cc715175059e'],
     'нью-йорк': ['1652229/728d5c86707054d4745f', '1030494/aca7ed7acefde2606bdc'],
@@ -252,6 +253,7 @@ def get_first_name(req):
             return entity['value'].get('first_name', None)
 
 
-if __name__ == '__main__':
+if __name__ != '__main__':
     STORAGE = {}
+else:
     app.run()
