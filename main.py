@@ -51,6 +51,11 @@ def handle_dialog(res, req):
                 res['response']['text'] = 'Ты отгадал все города!'
                 res['end_session'] = True
                 return
+    else:
+        sessionStorage[user_id] = {
+            'first_name': None,  # здесь будет храниться имя
+            'game_started': False  # здесь информация о том, что пользователь начал игру. По умолчанию False
+        }
     if 'payload' in req['request']:
         if 'help' in req['request']['payload']:
             res['response']['text'] = ''
