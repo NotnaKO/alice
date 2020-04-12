@@ -24,11 +24,11 @@ def main():
         'session': request.json['session'],
         'version': request.json['version'],
         'response': {
-            'buttons': [{'title': 'Помощь', 'hide': False, 'payload': {'help': True}}],
             'end_session': False
         }
     }
     handle_dialog(response, request.json)
+    response['response']['buttons'] += [{'title': 'Помощь', 'hide': False, 'payload': {'help': True}}]
     logging.info('Response: %r', response)
     return json.dumps(response)
 
